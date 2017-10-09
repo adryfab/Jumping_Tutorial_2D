@@ -13,8 +13,13 @@ public class PlayerControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+		if (Input.GetKeyDown("up") || Input.GetMouseButtonDown(0) ||
+            Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            UpdateState("Player_Jump");
+        }
+
+    }
 
     public void UpdateState(string state = null)
     {
