@@ -14,6 +14,8 @@ public class GameControl : MonoBehaviour {
     public enum GameState { Idle, Playing }; //Idle=Parado, Playing=Jugando
     public GameState gameState = GameState.Idle;
 
+    public GameObject player;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -28,6 +30,7 @@ public class GameControl : MonoBehaviour {
         {
             gameState = GameState.Playing;
             uiIdle.SetActive(false);
+            player.SendMessage("UpdateState", "Player_Run");
         }
         //Juego en marcha
         else if (gameState == GameState.Playing)
