@@ -27,8 +27,7 @@ public class GameControl : MonoBehaviour {
 	void Update () {
         //Empieza el juego
         if (gameState == GameState.Idle && 
-            (Input.GetKeyDown("up") || Input.GetMouseButtonDown(0) || 
-            Input.GetTouch(0).phase == TouchPhase.Began))
+            (Input.GetKeyDown("up") || Input.GetMouseButtonDown(0) || Input.touchCount > 0))
         {
             gameState = GameState.Playing;
             uiIdle.SetActive(false);

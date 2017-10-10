@@ -18,8 +18,7 @@ public class PlayerControl : MonoBehaviour {
 	void Update () {
         bool gamePlaying = game.GetComponent<GameControl>().gameState == GameState.Playing;
 
-        if (gamePlaying == true && (Input.GetKeyDown("up") || Input.GetMouseButtonDown(0) ||
-            Input.GetTouch(0).phase == TouchPhase.Began))
+        if (gamePlaying == true && (Input.GetKeyDown("up") || Input.GetMouseButtonDown(0) || Input.touchCount > 0))
         {
             UpdateState("Player_Jump");
         }
