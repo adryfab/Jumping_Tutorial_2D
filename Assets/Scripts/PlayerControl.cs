@@ -6,15 +6,20 @@ public class PlayerControl : MonoBehaviour {
 
     private Animator animator;
 
-	// Use this for initialization
-	void Start () {
+    public GameObject game;
+    public GameObject enemyGenerator;
+
+    // Use this for initialization
+    void Start () {
         animator = GetComponent<Animator>();
     }
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown("up") || Input.GetMouseButtonDown(0) ||
-            Input.GetTouch(0).phase == TouchPhase.Began)
+        bool gamePlaying = game.GetComponent<GameControl>().gameState == GameState.Playing;
+
+        if (gamePlaying == true && (Input.GetKeyDown("up") || Input.GetMouseButtonDown(0) ||
+            Input.GetTouch(0).phase == TouchPhase.Began))
         {
             UpdateState("Player_Jump");
         }
@@ -26,6 +31,16 @@ public class PlayerControl : MonoBehaviour {
         if (state != null)
         {
             animator.Play(state);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            UpdateState("Player_Die");
+            game.GetComponent<GameControl>().gameState = GameState.Ended;
+            enemyGenerator.SendMessage("CancelGenerator", true);
         }
     }
 }

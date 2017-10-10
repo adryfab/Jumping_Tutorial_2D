@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum GameState { Idle, Playing, Ended }; //Idle=Parado, Playing=Jugando, Ended=Terminando
+
 public class GameControl : MonoBehaviour {
 
     [Range(0f, 0.20f)]
@@ -11,7 +13,6 @@ public class GameControl : MonoBehaviour {
     public RawImage platform;
     public GameObject uiIdle;
     
-    public enum GameState { Idle, Playing }; //Idle=Parado, Playing=Jugando
     public GameState gameState = GameState.Idle;
 
     public GameObject player;
@@ -38,6 +39,11 @@ public class GameControl : MonoBehaviour {
         else if (gameState == GameState.Playing)
         {
             Parallax();
+        }
+        //Juego finalizado
+        else if (gameState == GameState.Ended)
+        {
+            //Hacer algo
         }
     }
 
