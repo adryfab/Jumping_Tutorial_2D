@@ -42,4 +42,9 @@ public class PlayerControl : MonoBehaviour {
             enemyGenerator.SendMessage("CancelGenerator", true);
         }
     }
+
+    void GameReady ()
+    {
+        game.GetComponent<GameControl>().gameState = GameState.Ready;
+    }
 }
