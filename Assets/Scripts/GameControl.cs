@@ -16,7 +16,8 @@ public class GameControl : MonoBehaviour {
     public GameObject uiIdle;
     public GameObject uiScore;
     public Text pointText;
-    
+    public Text recordText;
+
     public GameState gameState = GameState.Idle;
 
     public GameObject player;
@@ -31,7 +32,7 @@ public class GameControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         musicPlayer = GetComponent<AudioSource>();
-
+        recordText.text = "BEST: " + GetMaxScore().ToString();
     }
 	
 	// Update is called once per frame
@@ -95,5 +96,20 @@ public class GameControl : MonoBehaviour {
     {
         points++;
         pointText.text = points.ToString();
+        if (points >= GetMaxScore())
+        {
+            recordText.text = "BEST: " + points.ToString();
+            SaveScore(points);
+        }
+    }
+
+    public int GetMaxScore()
+    {
+        return PlayerPrefs.GetInt("Max_Points", 0);
+    }
+
+    public void SaveScore(int currentsPoints)
+    {
+        PlayerPrefs.SetInt("Max_Points", currentsPoints);
     }
 }
