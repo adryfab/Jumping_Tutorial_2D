@@ -20,6 +20,9 @@ public class GameControl : MonoBehaviour {
     public GameObject player;
     public GameObject enemyGenerator;
 
+    public float scaleTime = 6f;
+    public float scaleInc = 0.25f;
+
     private AudioSource musicPlayer;
 
 	// Use this for initialization
@@ -40,6 +43,7 @@ public class GameControl : MonoBehaviour {
             player.SendMessage("UpdateState", "Player_Run");
             enemyGenerator.SendMessage("StartGenerator");
             musicPlayer.Play();
+            InvokeRepeating("GameTimeScale", scaleTime, scaleTime);
         }
         //Juego en marcha
         else if (gameState == GameState.Playing)
@@ -65,7 +69,20 @@ public class GameControl : MonoBehaviour {
 
     public void RestarGame()
     {
+        ResetTimeScale();
         SceneManager.LoadScene("Escena1");
     }
 
+    void GameTimeScale()
+    {
+        Time.timeScale += scaleInc;
+        Debug.Log("Ritmo incrementado: " + Time.timeScale.ToString());
+    }
+
+    public void ResetTimeScale(float newTimeScale = 1f)
+    {
+        CancelInvoke("GameTimeScale");
+        Time.timeScale = newTimeScale;
+        Debug.Log("Ritmo restablecido: " + Time.timeScale.ToString());
+    }
 }
