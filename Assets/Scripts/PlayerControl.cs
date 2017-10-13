@@ -12,6 +12,7 @@ public class PlayerControl : MonoBehaviour {
     public GameObject enemyGenerator;
     public AudioClip jumpClip;
     public AudioClip dieClip;
+    public AudioClip pointClip;
     public ParticleSystem dust;
 
     // Use this for initialization
@@ -58,6 +59,11 @@ public class PlayerControl : MonoBehaviour {
             audioPlayer.Play();
 
             DustStop();
+        } else if (collision.gameObject.tag == "Point")
+        {
+            game.SendMessage("IncreasePoints");
+            audioPlayer.clip = pointClip;
+            audioPlayer.Play();
         }
     }
 
