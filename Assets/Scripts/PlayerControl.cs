@@ -5,22 +5,32 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour {
 
     private Animator animator;
+    private AudioSource audioPlayer;
+    private float startY;
 
     public GameObject game;
     public GameObject enemyGenerator;
+    public AudioClip jumpClip;
+    public AudioClip dieClip;
 
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
+        audioPlayer = GetComponent<AudioSource>();
+        startY = transform.position.y; //Posicion del personaje en el suelo
     }
 	
 	// Update is called once per frame
 	void Update () {
+        bool isGrounded = transform.position.y == startY;
         bool gamePlaying = game.GetComponent<GameControl>().gameState == GameState.Playing;
+        bool userAction = Input.GetKeyDown("up") || Input.GetMouseButtonDown(0) || Input.touchCount > 0;
 
-        if (gamePlaying == true && (Input.GetKeyDown("up") || Input.GetMouseButtonDown(0) || Input.touchCount > 0))
+        if (isGrounded == true && gamePlaying == true && userAction == true)
         {
             UpdateState("Player_Jump");
+            audioPlayer.clip = jumpClip;
+            audioPlayer.Play();
         }
 
     }
@@ -40,6 +50,10 @@ public class PlayerControl : MonoBehaviour {
             UpdateState("Player_Die");
             game.GetComponent<GameControl>().gameState = GameState.Ended;
             enemyGenerator.SendMessage("CancelGenerator", true);
+
+            game.GetComponent<AudioSource>().Stop();
+            audioPlayer.clip = dieClip;
+            audioPlayer.Play();
         }
     }
 
