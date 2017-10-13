@@ -12,6 +12,7 @@ public class PlayerControl : MonoBehaviour {
     public GameObject enemyGenerator;
     public AudioClip jumpClip;
     public AudioClip dieClip;
+    public ParticleSystem dust;
 
     // Use this for initialization
     void Start () {
@@ -55,11 +56,23 @@ public class PlayerControl : MonoBehaviour {
             game.GetComponent<AudioSource>().Stop();
             audioPlayer.clip = dieClip;
             audioPlayer.Play();
+
+            DustStop();
         }
     }
 
     void GameReady ()
     {
         game.GetComponent<GameControl>().gameState = GameState.Ready;
+    }
+
+    void DustPlay()
+    {
+        dust.Play();
+    }
+
+    void DustStop()
+    {
+        dust.Stop();
     }
 }
